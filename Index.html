@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bar Txinpi - Encargo de Tortillas</title>
+    <style>
+        :root {
+            --primary: #c0392b;
+            --primary-dark: #a93226;
+            --secondary: #f39c12;
+            --bg: #fdfefe;
+            --card-bg: #ffffff;
+            --text: #2c3e50;
+            --light-bg: #f8f9fa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        header p {
+            opacity: 0.95;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .hero-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .hero-icon {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-title {
+            font-size: 1.6rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-desc {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .notice-banner {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            padding: 0.9rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .order-form {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .form-title {
+            font-size: 1.2rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-bg);
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .qty-picker {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qty-btn {
+            width: 42px;
+            height: 42px;
+            border: 1px solid #ddd;
+            background: #f1f1f1;
+            border-radius: 6px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .qty-input {
+            width: 60px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .total-display {
+            background: #fff5f5;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--primary);
+        }
+
+        .total-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: #25D366; /* WhatsApp color */
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: #128C7E;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            color: #888;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Bar Txinpi</h1>
+        <p>Urduliz • Encargo de Tortillas Caseras</p>
+    </header>
+
+    <div class="container">
+        <!-- Presentación del Producto -->
+        <div class="hero-card">
+            <div class="hero-icon">🍳</div>
+            <h2 class="hero-title">Nuestras Tortillas Caseras</h2>
+            <p class="hero-desc">Hechas al momento con patata local y huevos camperos. Encarga la tuya para recoger recién hecha.</p>
+        </div>
+
+        <!-- Aviso 24 Horas -->
+        <div class="notice-banner">
+            <span style="font-size: 1.3rem;">⏳</span>
+            <span><strong>Aviso de encargo:</strong> Los pedidos deben realizarse con un mínimo de <strong>24 horas de antelación</strong>.</span>
+        </div>
+
+        <!-- Formulario de Encargo -->
+        <div class="order-form">
+            <h3 class="form-title">Haz tu encargo por WhatsApp</h3>
+            
+            <form id="txinpiOrderForm">
+                
+                <div class="form-group">
+                    <label for="tortillaType">Variedad de Tortilla</label>
+                    <select id="tortillaType" onchange="calculateTotal()" required>
+                        <option value="con_cebolla" data-price="14.00">Tradicional CON cebolla (14,00 €)</option>
+                        <option value="sin_cebolla" data-price="14.00">Tradicional SIN cebolla (14,00 €)</option>
+                        <option value="jamon_queso" data-price="16.00">Especial Jamón y Queso (16,00 €)</option>
+                        <option value="especial_temporada" data-price="17.00">Especial de Temporada (Bonito/Bacon...) (17,00 €)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Cantidad</label>
+                    <div class="qty-picker">
+                        <button type="button" class="qty-btn" onclick="updateQty(-1)">-</button>
+                        <input type="number" id="qty" class="qty-input" value="1" min="1" readonly>
+                        <button type="button" class="qty-btn" onclick="updateQty(1)">+</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Tu Nombre</label>
+                    <input type="text" id="name" placeholder="Ej. Aitor Mendizabal" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Día de recogida (Mínimo 24h)</label>
+                    <select id="date" required>
+                        <option value="">Selecciona el día...</option>
+                        <option value="Mañana">Mañana</option>
+                        <option value="Pasado mañana">Pasado mañana</option>
+                        <option value="Otro día posterior">Otro día (especificar en notas)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="time">Hora de recogida aproximada</label>
+                    <select id="time" required>
+                        <option value="">Selecciona hora...</option>
+                        <option value="12:30">12:30 h</option>
+                        <option value="13:00">13:00 h</option>
+                        <option value="13:30">13:30 h</option>
+                        <option value="14:00">14:00 h</option>
+                        <option value="14:30">14:30 h</option>
+                        <option value="20:00">20:00 h</option>
+                        <option value="20:30">20:30 h</option>
+                        <option value="21:00">21:00 h</option>
+                        <option value="21:30">21:30 h</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Punto de la tortilla o notas adicionales (opcional)</label>
+                    <textarea id="notes" rows="2" placeholder="Ej. Poco hecha, o especificar ingrediente de la especial de temporada..."></textarea>
+                </div>
+
+                <div class="total-display">
+                    <span>Total a pagar al recoger:</span>
+                    <span class="total-price" id="totalAmount">14,00 €</span>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <span>💬 Enviar encargo por WhatsApp</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>Bar Txinpi • Urduliz • Teléfono: 630 86 29 28</p>
+    </footer>
+
+    <script>
+        let currentQty = 1;
+
+        function updateQty(delta) {
+            currentQty = Math.max(1, currentQty + delta);
+            document.getElementById('qty').value = currentQty;
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            const select = document.getElementById('tortillaType');
+            const selectedOption = select.options[select.selectedIndex];
+            const unitPrice = parseFloat(selectedOption.getAttribute('data-price') || 14.00);
+
+            const total = (currentQty * unitPrice).toFixed(2).replace('.', ',');
+            document.getElementById('totalAmount').textContent = `${total} €`;
+        }
+
+        document.getElementById('txinpiOrderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const select = document.getElementById('tortillaType');
+            const tortillaName = select.options[select.selectedIndex].text.split('(')[0].trim();
+            const unitPrice = parseFloat(select.options[select.selectedIndex].getAttribute('data-price'));
+            
+            const name = document.getElementById('name').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const notes = document.getElementById('notes').value;
+            const total = (currentQty * unitPrice).toFixed(2).replace('.', ',');
+
+            // Formatear mensaje para WhatsApp
+            let text = `*🍳 NUEVO ENCARGO - BAR TXINPI*\n\n`;
+            text += `👤 *Cliente:* ${name}\n`;
+            text += `📋 *Pedido:* ${currentQty}x ${tortillaName}\n`;
+            text += `📅 *Día recogida:* ${date}\n`;
+            text += `🕒 *Hora recogida:* ${time}\n`;
+            if (notes.trim()) {
+                text += `📝 *Detalles/Punto:* ${notes}\n`;
+            }
+            text += `\n💰 *Total:* ${total} € (pago en el local)`;
+
+            const encodedText = encodeURIComponent(text);
+            
+            // Número de WhatsApp configurado para el Bar Txinpi
+            const phoneNumber = "34630862928"; 
+            
+            window.open(`https://wa.me/${phoneNumber}?text=${encodedText}`, '_blank');
+        });
+
+        // Inicializar cálculo al cargar
+        calculateTotal();
+    </script>
+</body>
+</html>
