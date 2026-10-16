@@ -95,3 +95,377 @@
 
         .payment-banner {
             background-color: #e8f4f8;
+            color: #1d6f8a;
+            border: 1px solid #bce1ec;
+            padding: 0.9rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .order-form {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .form-title {
+            font-size: 1.2rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-bg);
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .item-info {
+            flex: 1;
+            padding-right: 10px;
+        }
+
+        .item-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .item-price {
+            color: #777;
+            font-size: 0.85rem;
+        }
+
+        .qty-picker {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qty-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid #ddd;
+            background: #f1f1f1;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .qty-input {
+            width: 45px;
+            text-align: center;
+            font-weight: bold;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 0.4rem 0;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-top: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .total-display {
+            background: #fff5f5;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--primary);
+        }
+
+        .total-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: #128C7E;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            color: #888;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Bar Txinpi</h1>
+        <p>Urduliz • Encargo de Tortillas Caseras</p>
+    </header>
+
+    <div class="container">
+        <div class="hero-card">
+            <div class="hero-icon">🍳</div>
+            <h2 class="hero-title">Nuestras Tortillas Caseras</h2>
+            <p class="hero-desc">Hechas al momento con patata local y huevos camperos. Encarga la tuya para recoger recién hecha.</p>
+        </div>
+
+        <div class="notice-banner">
+            <span style="font-size: 1.3rem;">⌛</span>
+            <span><strong>Aviso de encargo:</strong> Mínimo <strong>24 horas de antelación</strong>.</span>
+        </div>
+
+        <div class="payment-banner">
+            <strong> Reserva y pago:</strong><br>
+            🥚 <em>Sin huevos no hay tortilla.</em> Para confirmar tu encargo y ponernos manos a la obra, es necesario abonar el importe por adelantado (te facilitaremos el Bizum al recibir tu mensaje).
+        </div>
+
+        <div class="order-form">
+            <h3 class="form-title">1. Selecciona tus tortillas</h3>
+            
+            <!-- LISTA DE VARIABILIDAD Y CANTIDADES -->
+            <div class="item-row">
+                <div class="item-info">
+                    <div class="item-name">Tradicional CON cebolla</div>
+                    <div class="item-price">14,00 €</div>
+                </div>
+                <div class="qty-picker">
+                    <button type="button" class="qty-btn" onclick="changeQty('con_cebolla', -1)">-</button>
+                    <input type="number" id="qty_con_cebolla" class="qty-input" value="0" min="0" readonly>
+                    <button type="button" class="qty-btn" onclick="changeQty('con_cebolla', 1)">+</button>
+                </div>
+            </div>
+
+            <div class="item-row">
+                <div class="item-info">
+                    <div class="item-name">Tradicional SIN cebolla</div>
+                    <div class="item-price">14,00 €</div>
+                </div>
+                <div class="qty-picker">
+                    <button type="button" class="qty-btn" onclick="changeQty('sin_cebolla', -1)">-</button>
+                    <input type="number" id="qty_sin_cebolla" class="qty-input" value="0" min="0" readonly>
+                    <button type="button" class="qty-btn" onclick="changeQty('sin_cebolla', 1)">+</button>
+                </div>
+            </div>
+
+            <div class="item-row">
+                <div class="item-info">
+                    <div class="item-name">Especial Jamón y Queso</div>
+                    <div class="item-price">16,00 €</div>
+                </div>
+                <div class="qty-picker">
+                    <button type="button" class="qty-btn" onclick="changeQty('jamon_queso', -1)">-</button>
+                    <input type="number" id="qty_jamon_queso" class="qty-input" value="0" min="0" readonly>
+                    <button type="button" class="qty-btn" onclick="changeQty('jamon_queso', 1)">+</button>
+                </div>
+            </div>
+
+            <div class="item-row">
+                <div class="item-info">
+                    <div class="item-name">Especial de Temporada</div>
+                    <div class="item-price">17,00 €</div>
+                </div>
+                <div class="qty-picker">
+                    <button type="button" class="qty-btn" onclick="changeQty('especial_temporada', -1)">-</button>
+                    <input type="number" id="qty_especial_temporada" class="qty-input" value="0" min="0" readonly>
+                    <button type="button" class="qty-btn" onclick="changeQty('especial_temporada', 1)">+</button>
+                </div>
+            </div>
+
+            <form id="txinpiOrderForm" style="margin-top: 1.5rem;">
+                <h3 class="form-title">2. Datos de recogida</h3>
+
+                <div class="form-group">
+                    <label for="name">Tu Nombre</label>
+                    <input type="text" id="name" placeholder="Ej. Aitor Mendizabal" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Día de recogida (Mínimo 24h)</label>
+                    <select id="date" required>
+                        <option value="">Selecciona el día...</option>
+                        <option value="Mañana">Mañana</option>
+                        <option value="Pasado mañana">Pasado mañana</option>
+                        <option value="Otro día posterior">Otro día (especificar en notas)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="time">Hora de recogida</label>
+                    <select id="time" required>
+                        <option value="">Selecciona hora...</option>
+                        <optgroup label="Lunes a Viernes (8:00 a 22:00 h)">
+                            <option value="08:30 (L-V)">08:30 h</option>
+                            <option value="09:30 (L-V)">09:30 h</option>
+                            <option value="10:30 (L-V)">10:30 h</option>
+                            <option value="12:30">12:30 h</option>
+                            <option value="13:30">13:30 h</option>
+                            <option value="14:30">14:30 h</option>
+                            <option value="19:30 (L-V)">19:30 h (L-V)</option>
+                            <option value="20:30 (L-V)">20:30 h (L-V)</option>
+                            <option value="21:30 (L-V)">21:30 h (L-V)</option>
+                        </optgroup>
+                        <optgroup label="Sábados y Domingos (9:00 a 16:00 h)">
+                            <option value="09:30 (Fin de semana)">09:30 h (S-D)</option>
+                            <option value="11:30 (Fin de semana)">11:30 h (S-D)</option>
+                            <option value="13:00 (Fin de semana)">13:00 h (S-D)</option>
+                            <option value="15:00 (Fin de semana)">15:00 h (S-D)</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Punto de la tortilla o notas adicionales (opcional)</label>
+                    <textarea id="notes" rows="2" placeholder="Ej. Poco hecha, o especificar fecha exacta..."></textarea>
+                </div>
+
+                <div class="total-display">
+                    <span>Total estimado:</span>
+                    <span class="total-price" id="totalAmount">0,00 €</span>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <span>💬 Solicitar encargo por WhatsApp</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p><strong>Bar Txinpi</strong> • Urduliz<br>
+        <strong>Horario Bar:</strong> L-V: 7:00-22:00 h | S-D: 9:00-16:00 h<br>
+        <strong>Horario Entregas:</strong> L-V: 8:00-22:00 h | S-D: 9:00-16:00 h<br>
+        Teléfono: 630 86 29 28</p>
+    </footer>
+
+    <script>
+        const prices = {
+            con_cebolla: { name: "Tradicional CON cebolla", price: 14.00 },
+            sin_cebolla: { name: "Tradicional SIN cebolla", price: 14.00 },
+            jamon_queso: { name: "Especial Jamón y Queso", price: 16.00 },
+            especial_temporada: { name: "Especial de Temporada", price: 17.00 }
+        };
+
+        const quantities = {
+            con_cebolla: 0,
+            sin_cebolla: 0,
+            jamon_queso: 0,
+            especial_temporada: 0
+        };
+
+        function changeQty(key, delta) {
+            quantities[key] = Math.max(0, quantities[key] + delta);
+            document.getElementById(`qty_${key}`).value = quantities[key];
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            for (let key in quantities) {
+                total += quantities[key] * prices[key].price;
+            }
+            document.getElementById('totalAmount').textContent = `${total.toFixed(2).replace('.', ',')} €`;
+        }
+
+        document.getElementById('txinpiOrderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Comprobar que haya al menos 1 tortilla seleccionada
+            let totalItems = 0;
+            let itemsText = "";
+
+            for (let key in quantities) {
+                if (quantities[key] > 0) {
+                    totalItems += quantities[key];
+                    itemsText += `• ${quantities[key]}x ${prices[key].name}\n`;
+                }
+            }
+
+            if (totalItems === 0) {
+                alert("Por favor, selecciona al menos 1 tortilla para realizar el encargo.");
+                return;
+            }
+
+            const name = document.getElementById('name').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const notes = document.getElementById('notes').value;
+            
+            let totalSum = 0;
+            for (let key in quantities) {
+                totalSum += quantities[key] * prices[key].price;
+            }
+            const totalFormatted = totalSum.toFixed(2).replace('.', ',');
+
+            // Redacción limpia del mensaje para WhatsApp
+            let text = `*NUEVO ENCARGO - BAR TXINPI*\n\n`;
+            text += `• *Cliente:* ${name}\n`;
+            text += `\n*Pedido:*\n${itemsText}`;
+            text += `\n• *Día recogida:* ${date}\n`;
+            text += `• *Hora recogida:* ${time}\n`;
+            if (notes.trim()) {
+                text += `• *Notas/Punto:* ${notes}\n`;
+            }
+            text += `\n*Total:* ${totalFormatted} €\n\n`;
+            text += `_(Pendiente de confirmación y envío de Bizum por el local)_`;
+
+            const encodedText = encodeURIComponent(text);
+            const phoneNumber = "34630862928"; 
+            
+            window.open(`https://wa.me/${phoneNumber}?text=${encodedText}`, '_blank');
+        });
+
+        calculateTotal();
+    </script>
+</body>
+</html>
