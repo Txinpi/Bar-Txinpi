@@ -179,7 +179,7 @@
 
         .btn-submit {
             width: 100%;
-            background-color: #25D366; /* WhatsApp color */
+            background-color: #25D366;
             color: white;
             border: none;
             padding: 1rem;
@@ -214,20 +214,17 @@
     </header>
 
     <div class="container">
-        <!-- Presentación del Producto -->
         <div class="hero-card">
             <div class="hero-icon">🍳</div>
             <h2 class="hero-title">Nuestras Tortillas Caseras</h2>
             <p class="hero-desc">Hechas al momento con patata local y huevos camperos. Encarga la tuya para recoger recién hecha.</p>
         </div>
 
-        <!-- Aviso 24 Horas -->
         <div class="notice-banner">
-            <span style="font-size: 1.3rem;">⏳</span>
+            <span style="font-size: 1.3rem;">⌛</span>
             <span><strong>Aviso de encargo:</strong> Los pedidos deben realizarse con un mínimo de <strong>24 horas de antelación</strong>.</span>
         </div>
 
-        <!-- Formulario de Encargo -->
         <div class="order-form">
             <h3 class="form-title">Haz tu encargo por WhatsApp</h3>
             
@@ -335,26 +332,23 @@
             const notes = document.getElementById('notes').value;
             const total = (currentQty * unitPrice).toFixed(2).replace('.', ',');
 
-            // Formatear mensaje para WhatsApp
-            let text = `*🍳 NUEVO ENCARGO - BAR TXINPI*\n\n`;
-            text += `👤 *Cliente:* ${name}\n`;
-            text += `📋 *Pedido:* ${currentQty}x ${tortillaName}\n`;
-            text += `📅 *Día recogida:* ${date}\n`;
-            text += `🕒 *Hora recogida:* ${time}\n`;
+            // Formatear mensaje limpio sin emojis conflictivos para WhatsApp
+            let text = `*NUEVO ENCARGO - BAR TXINPI*\n\n`;
+            text += `• *Cliente:* ${name}\n`;
+            text += `• *Pedido:* ${currentQty}x ${tortillaName}\n`;
+            text += `• *Día recogida:* ${date}\n`;
+            text += `• *Hora recogida:* ${time}\n`;
             if (notes.trim()) {
-                text += `📝 *Detalles/Punto:* ${notes}\n`;
+                text += `• *Detalles/Punto:* ${notes}\n`;
             }
-            text += `\n💰 *Total:* ${total} € (pago en el local)`;
+            text += `\n*Total:* ${total} € (pago en el local)`;
 
             const encodedText = encodeURIComponent(text);
-            
-            // Número de WhatsApp configurado para el Bar Txinpi
             const phoneNumber = "34630862928"; 
             
             window.open(`https://wa.me/${phoneNumber}?text=${encodedText}`, '_blank');
         });
 
-        // Inicializar cálculo al cargar
         calculateTotal();
     </script>
 </body>
