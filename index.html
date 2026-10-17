@@ -352,7 +352,7 @@
 
                 <div class="form-group">
                     <label for="date">Día de recogida (Mínimo 24h)</label>
-                    <select id="date" required>
+                    <select id="date" onchange="updateTimeOptions()" required>
                         <option value="">Selecciona el día...</option>
                     </select>
                 </div>
@@ -360,24 +360,7 @@
                 <div class="form-group">
                     <label for="time">Hora de recogida</label>
                     <select id="time" required>
-                        <option value="">Selecciona hora...</option>
-                        <optgroup label="Lunes a Viernes (8:00 a 22:00 h)">
-                            <option value="08:30 h">08:30 h</option>
-                            <option value="09:30 h">09:30 h</option>
-                            <option value="10:30 h">10:30 h</option>
-                            <option value="12:30 h">12:30 h</option>
-                            <option value="13:30 h">13:30 h</option>
-                            <option value="14:30 h">14:30 h</option>
-                            <option value="19:30 h">19:30 h</option>
-                            <option value="20:30 h">20:30 h</option>
-                            <option value="21:30 h">21:30 h</option>
-                        </optgroup>
-                        <optgroup label="Sábados y Domingos (9:00 a 16:00 h)">
-                            <option value="09:30 h">09:30 h</option>
-                            <option value="11:30 h">11:30 h</option>
-                            <option value="13:00 h">13:00 h</option>
-                            <option value="15:00 h">15:00 h</option>
-                        </optgroup>
+                        <option value="">Primero selecciona un día...</option>
                     </select>
                 </div>
 
@@ -420,7 +403,10 @@
             especial_temporada: 0
         };
 
-        // Generador automático de fechas con día/mes exacto
+        const weekdayHours = ["08:30 h", "09:30 h", "10:30 h", "12:30 h", "13:30 h", "14:30 h", "19:30 h", "20:30 h", "21:30 h"];
+        const weekendHours = ["09:30 h", "11:30 h", "13:00 h", "15:00 h"];
+
+        // Generador automático de fechas con guardado de tipo de día (L-V vs S-D)
         function populateDates() {
             const dateSelect = document.getElementById('date');
             const today = new Date();
@@ -432,6 +418,8 @@
                 const dayNum = String(nextDate.getDate()).padStart(2, '0');
                 const monthNum = String(nextDate.getMonth() + 1).padStart(2, '0');
                 const formattedDateStr = `${dayNum}/${monthNum}`;
+                const dayOfWeek = nextDate.getDay(); // 0 = Domingo, 6 = Sábado
+                const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
 
                 let label = "";
                 if (i === 1) {
@@ -439,22 +427,54 @@
                 } else if (i === 2) {
                     label = `Pasado mañana (${formattedDateStr})`;
                 } else {
-                    const daysOfWeek = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-                    label = `${daysOfWeek[nextDate.getDay()]} (${formattedDateStr})`;
+                    const daysOfWeekStr = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+                    label = `${daysOfWeekStr[dayOfWeek]} (${formattedDateStr})`;
                 }
 
                 const option = document.createElement('option');
                 option.value = label;
                 option.textContent = label;
+                option.setAttribute('data-weekend', isWeekend);
                 dateSelect.appendChild(option);
             }
+        }
+
+        // Filtrar dinámicamente el selector de hora según si el día es L-V o Fin de Semana
+        function updateTimeOptions() {
+            const dateSelect = document.getElementById('date');
+            const timeSelect = document.getElementById('time');
+            const selectedOption = dateSelect.options[dateSelect.selectedIndex];
+
+            timeSelect.innerHTML = "";
+
+            if (!dateSelect.value) {
+                const defaultOpt = document.createElement('option');
+                defaultOpt.value = "";
+                defaultOpt.textContent = "Primero selecciona un día...";
+                timeSelect.appendChild(defaultOpt);
+                return;
+            }
+
+            const isWeekend = selectedOption.getAttribute('data-weekend') === 'true';
+            const hoursList = isWeekend ? weekendHours : weekdayHours;
+
+            const placeholderOpt = document.createElement('option');
+            placeholderOpt.value = "";
+            placeholderOpt.textContent = "Selecciona la hora de recogida...";
+            timeSelect.appendChild(placeholderOpt);
+
+            hoursList.forEach(hour => {
+                const opt = document.createElement('option');
+                opt.value = hour;
+                opt.textContent = hour;
+                timeSelect.appendChild(opt);
+            });
         }
 
         function changeQty(key, delta) {
             quantities[key] = Math.max(0, quantities[key] + delta);
             document.getElementById(`qty_${key}`).value = quantities[key];
 
-            // Mostrar/ocultar selector de sabor para la especial
             const specialContainer = document.getElementById('special_options_container');
             if (quantities.especial_temporada > 0) {
                 specialContainer.style.display = 'block';
