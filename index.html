@@ -104,6 +104,17 @@
             line-height: 1.4;
         }
 
+        .limit-banner {
+            background-color: #fdf2e9;
+            color: #b95c00;
+            border: 1px solid #fbe3d0;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
         .order-form {
             background: var(--card-bg);
             border-radius: 12px;
@@ -279,13 +290,17 @@
             🥚 <em>Sin huevos no hay tortilla.</em> Para confirmar tu encargo y ponernos manos a la obra, es necesario abonar el importe por adelantado (te facilitaremos el Bizum al recibir tu mensaje).
         </div>
 
+        <div class="limit-banner">
+            ℹ️ <strong>Capacidad de cocina:</strong> Máximo 5 tortillas por encargo web. Para pedidos superiores o eventos, consultar directamente por teléfono.
+        </div>
+
         <div class="order-form">
             <h3 class="form-title">1. Selecciona tus tortillas</h3>
             
             <div class="item-row">
                 <div class="item-info">
                     <div class="item-name">Tradicional CON cebolla</div>
-                    <div class="item-price">17,00 €</div>
+                    <div class="item-price">14,00 €</div>
                 </div>
                 <div class="qty-picker">
                     <button type="button" class="qty-btn" onclick="changeQty('con_cebolla', -1)">-</button>
@@ -297,7 +312,7 @@
             <div class="item-row">
                 <div class="item-info">
                     <div class="item-name">Tradicional SIN cebolla</div>
-                    <div class="item-price">17,00 €</div>
+                    <div class="item-price">14,00 €</div>
                 </div>
                 <div class="qty-picker">
                     <button type="button" class="qty-btn" onclick="changeQty('sin_cebolla', -1)">-</button>
@@ -309,7 +324,7 @@
             <div class="item-row">
                 <div class="item-info">
                     <div class="item-name">Especial Jamón y Queso</div>
-                    <div class="item-price">18,00 €</div>
+                    <div class="item-price">16,00 €</div>
                 </div>
                 <div class="qty-picker">
                     <button type="button" class="qty-btn" onclick="changeQty('jamon_queso', -1)">-</button>
@@ -322,7 +337,7 @@
                 <div class="item-row">
                     <div class="item-info">
                         <div class="item-name">Especial de Temporada</div>
-                        <div class="item-price">18,00 €</div>
+                        <div class="item-price">17,00 €</div>
                     </div>
                     <div class="qty-picker">
                         <button type="button" class="qty-btn" onclick="changeQty('especial_temporada', -1)">-</button>
@@ -390,10 +405,10 @@
 
     <script>
         const prices = {
-            con_cebolla: { name: "Tradicional CON cebolla", price: 17.00 },
-            sin_cebolla: { name: "Tradicional SIN cebolla", price: 17.00 },
-            jamon_queso: { name: "Especial Jamón y Queso", price: 18.00 },
-            especial_temporada: { name: "Especial de Temporada", price: 18.00 }
+            con_cebolla: { name: "Tradicional CON cebolla", price: 14.00 },
+            sin_cebolla: { name: "Tradicional SIN cebolla", price: 14.00 },
+            jamon_queso: { name: "Especial Jamón y Queso", price: 16.00 },
+            especial_temporada: { name: "Especial de Temporada", price: 17.00 }
         };
 
         const quantities = {
@@ -403,10 +418,11 @@
             especial_temporada: 0
         };
 
+        const MAX_TORTILLAS = 5;
+
         const weekdayHours = ["08:30 h", "09:30 h", "10:30 h", "12:30 h", "13:30 h", "14:30 h", "19:30 h", "20:30 h", "21:30 h"];
         const weekendHours = ["09:30 h", "11:30 h", "13:00 h", "15:00 h"];
 
-        // Generador automático de fechas con guardado de tipo de día (L-V vs S-D)
         function populateDates() {
             const dateSelect = document.getElementById('date');
             const today = new Date();
@@ -418,7 +434,7 @@
                 const dayNum = String(nextDate.getDate()).padStart(2, '0');
                 const monthNum = String(nextDate.getMonth() + 1).padStart(2, '0');
                 const formattedDateStr = `${dayNum}/${monthNum}`;
-                const dayOfWeek = nextDate.getDay(); // 0 = Domingo, 6 = Sábado
+                const dayOfWeek = nextDate.getDay();
                 const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
 
                 let label = "";
@@ -439,7 +455,6 @@
             }
         }
 
-        // Filtrar dinámicamente el selector de hora según si el día es L-V o Fin de Semana
         function updateTimeOptions() {
             const dateSelect = document.getElementById('date');
             const timeSelect = document.getElementById('time');
@@ -471,7 +486,23 @@
             });
         }
 
+        function getTotalCount() {
+            let total = 0;
+            for (let key in quantities) {
+                total += quantities[key];
+            }
+            return total;
+        }
+
         function changeQty(key, delta) {
+            const currentTotal = getTotalCount();
+
+            // Validación de límite máximo de 5 tortillas por pedido
+            if (delta > 0 && currentTotal >= MAX_TORTILLAS) {
+                alert("El límite máximo por encargo web es de 5 tortillas. Para pedidos mayores, por favor ponte en contacto por teléfono.");
+                return;
+            }
+
             quantities[key] = Math.max(0, quantities[key] + delta);
             document.getElementById(`qty_${key}`).value = quantities[key];
 
@@ -516,6 +547,11 @@
                 return;
             }
 
+            if (totalItems > MAX_TORTILLAS) {
+                alert("El pedido supera el límite máximo de 5 tortillas.");
+                return;
+            }
+
             const name = document.getElementById('name').value;
             const date = document.getElementById('date').value;
             const time = document.getElementById('time').value;
@@ -536,7 +572,7 @@
                 text += `• *Notas/Punto:* ${notes}\n`;
             }
             text += `\n*Total:* ${totalFormatted} €\n\n`;
-            text += `_(Pendiente de confirmación y envío de Bizum por el local)_`;
+            text += `_(Solicitud sujeta a disponibilidad de cocina. Pendiente de confirmación y envío de Bizum por el local)_`;
 
             const encodedText = encodeURIComponent(text);
             const phoneNumber = "34630862928"; 
