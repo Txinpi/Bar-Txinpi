@@ -173,6 +173,15 @@
             font-size: 0.95rem;
         }
 
+        .special-options {
+            display: none;
+            background: #fcf8e3;
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin-top: 0.5rem;
+            border: 1px solid #faebcc;
+        }
+
         .form-group {
             margin-top: 1.2rem;
             margin-bottom: 1.2rem;
@@ -266,14 +275,13 @@
         </div>
 
         <div class="payment-banner">
-            <strong> Reserva y pago:</strong><br>
+            <strong>Reserva y pago:</strong><br>
             🥚 <em>Sin huevos no hay tortilla.</em> Para confirmar tu encargo y ponernos manos a la obra, es necesario abonar el importe por adelantado (te facilitaremos el Bizum al recibir tu mensaje).
         </div>
 
         <div class="order-form">
             <h3 class="form-title">1. Selecciona tus tortillas</h3>
             
-            <!-- LISTA DE VARIABILIDAD Y CANTIDADES -->
             <div class="item-row">
                 <div class="item-info">
                     <div class="item-name">Tradicional CON cebolla</div>
@@ -310,15 +318,27 @@
                 </div>
             </div>
 
-            <div class="item-row">
-                <div class="item-info">
-                    <div class="item-name">Especial de Temporada</div>
-                    <div class="item-price">17,00 €</div>
+            <div>
+                <div class="item-row">
+                    <div class="item-info">
+                        <div class="item-name">Especial de Temporada</div>
+                        <div class="item-price">17,00 €</div>
+                    </div>
+                    <div class="qty-picker">
+                        <button type="button" class="qty-btn" onclick="changeQty('especial_temporada', -1)">-</button>
+                        <input type="number" id="qty_especial_temporada" class="qty-input" value="0" min="0" readonly>
+                        <button type="button" class="qty-btn" onclick="changeQty('especial_temporada', 1)">+</button>
+                    </div>
                 </div>
-                <div class="qty-picker">
-                    <button type="button" class="qty-btn" onclick="changeQty('especial_temporada', -1)">-</button>
-                    <input type="number" id="qty_especial_temporada" class="qty-input" value="0" min="0" readonly>
-                    <button type="button" class="qty-btn" onclick="changeQty('especial_temporada', 1)">+</button>
+                
+                <!-- Desplegable especial de temporada -->
+                <div id="special_options_container" class="special-options">
+                    <label for="special_flavor" style="font-size:0.85rem; margin-bottom:0.2rem;">Sabor para Especial de Temporada:</label>
+                    <select id="special_flavor">
+                        <option value="Bacon Cheddar">Bacon Cheddar</option>
+                        <option value="Bacon Alioli">Bacon Alioli</option>
+                        <option value="Bonito con Mayonesa">Bonito con Mayonesa</option>
+                    </select>
                 </div>
             </div>
 
@@ -334,9 +354,6 @@
                     <label for="date">Día de recogida (Mínimo 24h)</label>
                     <select id="date" required>
                         <option value="">Selecciona el día...</option>
-                        <option value="Mañana">Mañana</option>
-                        <option value="Pasado mañana">Pasado mañana</option>
-                        <option value="Otro día posterior">Otro día (especificar en notas)</option>
                     </select>
                 </div>
 
@@ -345,28 +362,28 @@
                     <select id="time" required>
                         <option value="">Selecciona hora...</option>
                         <optgroup label="Lunes a Viernes (8:00 a 22:00 h)">
-                            <option value="08:30 (L-V)">08:30 h</option>
-                            <option value="09:30 (L-V)">09:30 h</option>
-                            <option value="10:30 (L-V)">10:30 h</option>
-                            <option value="12:30">12:30 h</option>
-                            <option value="13:30">13:30 h</option>
-                            <option value="14:30">14:30 h</option>
-                            <option value="19:30 (L-V)">19:30 h (L-V)</option>
-                            <option value="20:30 (L-V)">20:30 h (L-V)</option>
-                            <option value="21:30 (L-V)">21:30 h (L-V)</option>
+                            <option value="08:30 h">08:30 h</option>
+                            <option value="09:30 h">09:30 h</option>
+                            <option value="10:30 h">10:30 h</option>
+                            <option value="12:30 h">12:30 h</option>
+                            <option value="13:30 h">13:30 h</option>
+                            <option value="14:30 h">14:30 h</option>
+                            <option value="19:30 h">19:30 h</option>
+                            <option value="20:30 h">20:30 h</option>
+                            <option value="21:30 h">21:30 h</option>
                         </optgroup>
                         <optgroup label="Sábados y Domingos (9:00 a 16:00 h)">
-                            <option value="09:30 (Fin de semana)">09:30 h (S-D)</option>
-                            <option value="11:30 (Fin de semana)">11:30 h (S-D)</option>
-                            <option value="13:00 (Fin de semana)">13:00 h (S-D)</option>
-                            <option value="15:00 (Fin de semana)">15:00 h (S-D)</option>
+                            <option value="09:30 h">09:30 h</option>
+                            <option value="11:30 h">11:30 h</option>
+                            <option value="13:00 h">13:00 h</option>
+                            <option value="15:00 h">15:00 h</option>
                         </optgroup>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="notes">Punto de la tortilla o notas adicionales (opcional)</label>
-                    <textarea id="notes" rows="2" placeholder="Ej. Poco hecha, o especificar fecha exacta..."></textarea>
+                    <textarea id="notes" rows="2" placeholder="Ej. Poco hecha, jugosa..."></textarea>
                 </div>
 
                 <div class="total-display">
@@ -403,9 +420,48 @@
             especial_temporada: 0
         };
 
+        // Generador automático de fechas con día/mes exacto
+        function populateDates() {
+            const dateSelect = document.getElementById('date');
+            const today = new Date();
+
+            for (let i = 1; i <= 7; i++) {
+                const nextDate = new Date(today);
+                nextDate.setDate(today.getDate() + i);
+
+                const dayNum = String(nextDate.getDate()).padStart(2, '0');
+                const monthNum = String(nextDate.getMonth() + 1).padStart(2, '0');
+                const formattedDateStr = `${dayNum}/${monthNum}`;
+
+                let label = "";
+                if (i === 1) {
+                    label = `Mañana (${formattedDateStr})`;
+                } else if (i === 2) {
+                    label = `Pasado mañana (${formattedDateStr})`;
+                } else {
+                    const daysOfWeek = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+                    label = `${daysOfWeek[nextDate.getDay()]} (${formattedDateStr})`;
+                }
+
+                const option = document.createElement('option');
+                option.value = label;
+                option.textContent = label;
+                dateSelect.appendChild(option);
+            }
+        }
+
         function changeQty(key, delta) {
             quantities[key] = Math.max(0, quantities[key] + delta);
             document.getElementById(`qty_${key}`).value = quantities[key];
+
+            // Mostrar/ocultar selector de sabor para la especial
+            const specialContainer = document.getElementById('special_options_container');
+            if (quantities.especial_temporada > 0) {
+                specialContainer.style.display = 'block';
+            } else {
+                specialContainer.style.display = 'none';
+            }
+
             calculateTotal();
         }
 
@@ -420,14 +476,18 @@
         document.getElementById('txinpiOrderForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Comprobar que haya al menos 1 tortilla seleccionada
             let totalItems = 0;
             let itemsText = "";
 
             for (let key in quantities) {
                 if (quantities[key] > 0) {
                     totalItems += quantities[key];
-                    itemsText += `• ${quantities[key]}x ${prices[key].name}\n`;
+                    let itemName = prices[key].name;
+                    if (key === 'especial_temporada') {
+                        const flavor = document.getElementById('special_flavor').value;
+                        itemName += ` (${flavor})`;
+                    }
+                    itemsText += `• ${quantities[key]}x ${itemName}\n`;
                 }
             }
 
@@ -447,7 +507,6 @@
             }
             const totalFormatted = totalSum.toFixed(2).replace('.', ',');
 
-            // Redacción limpia del mensaje para WhatsApp
             let text = `*NUEVO ENCARGO - BAR TXINPI*\n\n`;
             text += `• *Cliente:* ${name}\n`;
             text += `\n*Pedido:*\n${itemsText}`;
@@ -465,6 +524,7 @@
             window.open(`https://wa.me/${phoneNumber}?text=${encodedText}`, '_blank');
         });
 
+        populateDates();
         calculateTotal();
     </script>
 </body>
